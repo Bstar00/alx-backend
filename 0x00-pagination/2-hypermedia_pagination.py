@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """
-This script defines a Server class for paginating a database of popular baby names.
+This script defines a Server class for paginating a
+database of popular baby names.
 """
 
 import csv
@@ -10,6 +11,7 @@ from math import ceil
 
 """ Import the index_range function from an external module"""
 index_range = __import__('0-simple_helper_function').index_range
+
 
 class Server:
     """
