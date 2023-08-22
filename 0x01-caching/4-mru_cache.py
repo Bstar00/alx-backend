@@ -1,18 +1,18 @@
 #!/usr/bin/python3
 """
-MRU Caching (Most Recently Used)
+LRU Caching
 """
 from base_caching import BaseCaching
 
 
 class MRUCache(BaseCaching):
     """
-    Most Recently Used (MRU) Cache class
+    MRU class
     """
 
     def __init__(self):
         """
-        Constructor
+        constructor
         """
         self.timesKey = {}
         self.time = 0
@@ -20,22 +20,26 @@ class MRUCache(BaseCaching):
 
     def put(self, key, item):
         """
-        Add an item to the cache
+        add to the cache
         """
         if key is not None and item is not None:
-            # Update the time and associate it with the key
+            # modify the time and change the next newer value
             self.timesKey[key] = self.time
             self.time += 1
 
-            # Add the new item to the cache
+            # add the new item
             self.cache_data[key] = item
 
         if len(self.cache_data) > BaseCaching.MAX_ITEMS:
-            # Find the key with the newest associated time
-            # (i.e., most recently used)
-            discard_key = max(self.timesKey, key=self.timesKey.get)
+            discard_key = None
+            newer = self.time - 2
 
-            # Remove the newest item from both the cache and timesKey
+            for _key, _value in self.timesKey.items():
+                if newer == _value:
+                    discard_key = _key
+                    break
+
+            # del key in time and cache data
             del self.cache_data[discard_key]
             del self.timesKey[discard_key]
 
@@ -43,12 +47,12 @@ class MRUCache(BaseCaching):
 
     def get(self, key):
         """
-        Retrieve the cache item value
+        get the cache item value
         """
         if key is None or key not in self.cache_data:
             return None
 
-        # Update the time and associate it with the key
+        # modify the time and change the next newer value
         self.timesKey[key] = self.time
         self.time += 1
 
